@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список файлов</title>
+    <style>
+        body {
+            text-align: center; /* Центрируем текст на странице */
+        }
+        .upload-button {
+            margin-top: 20px; /* Отступ сверху для кнопки */
+            padding: 10px 20px; /* Отступ внутри кнопки */
+            font-size: 16px; /* Размер шрифта кнопки */
+            background-color: #4CAF50; /* Цвет фона кнопки */
+            color: white; /* Цвет текста кнопки */
+            border: none; /* Убираем границу */
+            border-radius: 5px; /* Скругляем углы */
+            cursor: pointer; /* Указываем, что это кнопка */
+        }
+        .upload-button:hover {
+            background-color: #45a049; /* Цвет фона кнопки при наведении */
+        }
+        /* Убираем маркеры списка */
+        ul {
+            list-style-type: none; /* Убираем маркеры списка */
+            padding: 0; /* Убираем отступы списка */
+        }
+    </style>
+</head>
+<body>
+<h1>Загруженные файлы</h1>
+<ul>
+    <li th:each="file : ${files}">
+        <span th:text="${file}">Имя файла</span>
+        <a th:href="@{/files/{fileName}(fileName=${file})}" target="_blank">Открыть</a>
+        <a th:href="@{/delete/{fileName}(fileName=${file})}"
+           th:onclick="'return confirm(\'Вы уверены, что хотите удалить этот файл?\');'"
+           style="color: red; margin-left: 10px;">Удалить</a>
+    </li>
+</ul>
+<a href="http://localhost:8080/upload" class="upload-button">Загрузить файлы</a> <!-- Кнопка для загрузки файлов -->
+</body>
+</html>

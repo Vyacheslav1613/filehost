@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка файлов</title>
+    <style>
+        body {
+            display: flex; /* Используем flexbox для центрирования */
+            flex-direction: column; /* Устанавливаем вертикальное направление */
+            align-items: center; /* Центрируем по горизонтали */
+            margin: 0; /* Убираем отступы по умолчанию */
+            font-family: Arial, sans-serif; /* Задаем шрифт */
+        }
+        /* Скрываем стандартный input */
+        #fileInput {
+            display: none;
+        }
+        /* Стиль для кастомной кнопки */
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        /* Стиль для кнопки загрузки */
+        .upload-button {
+            margin-top: 10px; /* Отступ сверху */
+            margin-left: 10px; /* Сдвигаем кнопку немного вправо */
+            padding: 10px 20px;
+            background-color: #28a745; /* Цвет кнопки загрузки */
+            color: white;
+            border: none; /* Убираем границу */
+            border-radius: 5px; /* Скругляем углы */
+            cursor: pointer; /* Курсор при наведении */
+        }
+        /* Стили для списка файлов */
+        #fileList {
+            margin-top: 20px;
+            list-style-type: none; /* Убираем маркеры списка */
+            padding: 0; /* Убираем отступы списка */
+        }
+    </style>
+</head>
+<body>
+<h1>Загрузка файлов</h1>
+<form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+    <label class="custom-file-upload">
+        Выбрать файлы
+        <input type="file" id="fileInput" name="files" multiple required>
+    </label>
+    <br>
+    <button type="submit" class="upload-button">Загрузить файлы</button> <!-- Кнопка загрузки -->
+</form>
+
+<h2>Выбранные файлы:</h2>
+<ul id="fileList"></ul>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+
+    // Обработчик события для выбора файлов
+    fileInput.addEventListener('change', function() {
+        // Очищаем список перед добавлением новых файлов
+        fileList.innerHTML = '';
+
+        // Получаем выбранные файлы
+        const files = fileInput.files;
+        for (let i = 0; i < files.length; i++) {
+            // Создаем элемент списка для каждого файла
+            const listItem = document.createElement('li');
+            listItem.textContent = files[i].name; // Отображаем имя файла
+            fileList.appendChild(listItem);
+        }
+    });
+
+    // Обработчик события для отправки формы
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        if (!fileInput.files.length) {
+            alert('Пожалуйста, выберите файлы для загрузки.');
+            event.preventDefault(); // Отменяем отправку формы, если файлы не выбраны
+        }
+    });
+</script>
+</body>
+</html>
